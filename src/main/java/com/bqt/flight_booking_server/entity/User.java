@@ -13,19 +13,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // tự sinh id
-    private Long userId;
-
-    @Column(nullable = false, unique = true)
-    private String username;
-
-    @Column(nullable = false)
-    private String password;
+    @GeneratedValue(strategy = GenerationType.UUID) // tự sinh id
+    private String userId;
 
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
-    private String role;
+    private String password;
 }

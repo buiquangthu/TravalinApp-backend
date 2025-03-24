@@ -6,12 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UserResponse {
-    private String userId;
-    private String username;
+    private String id;
     private String email;
-    private String role;
 }

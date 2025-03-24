@@ -10,3 +10,7 @@ spring:
     url: "jdbc:mysql://localhost:3306/flight_booking_db"
     username: root
     password: root
+
+jwt:
+  secret: DLriNDSk32LjFMR0z46IrURtjCGtcID0BOcy5ikilBe9JbmXkFAQkO/pO2/aul12
+  expiration: 86400000
