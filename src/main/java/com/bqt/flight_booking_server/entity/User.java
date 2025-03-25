@@ -16,11 +16,18 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID) // tự sinh id
-    private String userId;
+    String userId;
 
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
+
+    private String phone;
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }
