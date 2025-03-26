@@ -19,4 +19,13 @@ public class RegisterRequest {
     @Size(min = 8, message = "Password must be at least 6 characters")
     private String password;
 
+    @NotBlank(message = "PhoneNumber cannot be blank") // khong cho phep bo trong
+    @Pattern(regexp = "^[0-9]{10,15}$", message = "Phone number must be between 10-15 digits")
+    private String phone;
+
+    @NotBlank(message = "Fullname cannot be blank") // khong cho phep bo trong
+    private String fullname;
+
+
+
 }

@@ -1,15 +1,17 @@
 package com.bqt.flight_booking_server.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
+@Getter
+@Setter
 public class UserResponse {
-    private String id;
+    private String userId;
     private String email;
+    private String phone;
 }

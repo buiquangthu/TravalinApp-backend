@@ -1,14 +1,12 @@
 package com.bqt.flight_booking_server.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,7 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID) // tự sinh id
-    String userId;
+    private String userId;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -26,8 +24,13 @@ public class User {
 
     private String phone;
 
-    public User(String email, String password) {
+    private String fullname;
+
+
+    public User(String email, String password, String phone, String fullname) {
         this.email = email;
         this.password = password;
+        this.phone = phone;
+        this.fullname = fullname;
     }
 }

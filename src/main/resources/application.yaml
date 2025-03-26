@@ -10,7 +10,32 @@ spring:
     url: "jdbc:mysql://localhost:3306/flight_booking_db"
     username: root
     password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: hoccachbuong1997@gmail.com
+    password: ovpmouuncaatsewq
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  spring:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 120000  # 120 giây
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true  # Hiển thị câu lệnh SQL trong console
 
 jwt:
   secret: DLriNDSk32LjFMR0z46IrURtjCGtcID0BOcy5ikilBe9JbmXkFAQkO/pO2/aul12
-  expiration: 86400000
+  expiration: 86400000  # 1 ngay

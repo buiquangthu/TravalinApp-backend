@@ -14,6 +14,7 @@ public enum ErrorCode {
     USERNAME_INVALID(HttpStatus.BAD_REQUEST, "Username must be at least {min} characters"),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "Password must be at least {min} characters"),
     INVALID_DOB(HttpStatus.BAD_REQUEST, "Your age must be at least {min}"),
+    INVALID_OTP(HttpStatus.BAD_REQUEST, "Invalid or expired OTP"),
 
     // Lỗi người dùng
     USER_EXISTED(HttpStatus.CONFLICT, "User already exists"),
@@ -22,6 +23,7 @@ public enum ErrorCode {
     // Lỗi xác thực & quyền
     UNAUTHENTICATED(HttpStatus.UNAUTHORIZED, "Unauthenticated"),
     UNAUTHORIZED(HttpStatus.FORBIDDEN, "You do not have permission");
+
 
     private final HttpStatus statusCode;
     private final String message;

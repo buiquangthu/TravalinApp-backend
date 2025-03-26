@@ -5,6 +5,7 @@ import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 
 @Component
@@ -16,8 +17,9 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private Long expirationTime;
 
+
     //Tao JWT
-    public String generrateToken(String email) {
+    public String generateToken(String email) {
         Date now = new Date();
 
         Date expiryDate = new Date(now.getTime() + expirationTime);
@@ -26,9 +28,14 @@ public class JwtTokenProvider {
                 .setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.ES512, secretKey)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
+
+//    // Tao rf token
+//    public String generateAccessToken(String email){
+//        return(email, refreshTokenValidity);
+//    }
 
     // Lấy email từ JWT
     public String getEmailFromToken(String token) {
