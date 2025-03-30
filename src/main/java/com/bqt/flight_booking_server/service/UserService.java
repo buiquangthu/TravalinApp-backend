@@ -53,6 +53,7 @@ public class UserService {
         User user = new User(request.getEmail(), passwordEncoder.encode(request.getPassword()), request.getPhone(),request.getFullname());
 
         user = userRepository.save(user);
+
         return UserResponse.builder()
                 .userId(user.getUserId())
                 .email(user.getEmail())
@@ -62,10 +63,10 @@ public class UserService {
     // dang nhap
     public JwtResponse loginUser(LoginRequest request){
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new AppException(ErrorCode.USER_EXISTED));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         if(!passwordEncoder.matches(request.getPassword(), user.getPassword()))
-            throw new AppException(ErrorCode.USER_NOT_EXISTED);
+            throw new AppException(ErrorCode.UNAUTHORIZED);
 
         String accessToken = jwtTokenProvider.generateToken(user.getEmail());
 

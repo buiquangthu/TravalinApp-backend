@@ -20,6 +20,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
@@ -41,7 +46,7 @@ public class SecurityConfig {
 //    }
 
     private final String[] PUBLIC_ENDPOINTS = {
-        "/users/register", "/users/login", "/users/forgot-password", "/users/verify-otp", "/users/reset-password"
+        "/users/register", "/users/login", "/users/forgot-password", "/users/verify-otp", "/users/reset-password", "/users/ping"
     };
 
     @Bean
@@ -50,8 +55,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests( auth -> auth
-                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated()
+//                        .requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
+//                        .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
 //                .authenticationProvider(authenticationProvider())
 //                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -86,5 +92,33 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        CorsConfiguration corsConfiguration = new CorsConfiguration();
+//
+//        corsConfiguration.addAllowedOrigin("*");
+//        corsConfiguration.addAllowedMethod("*");
+//        corsConfiguration.addAllowedHeader("*");
+//        corsConfiguration.setAllowCredentials(true);
+//        corsConfiguration.getAllowCredentials();
+//
+//        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+//        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+//
+//        return new CorsFilter(urlBasedCorsConfigurationSource);
+//    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*");
+            }
+        };
+    }
 
 }

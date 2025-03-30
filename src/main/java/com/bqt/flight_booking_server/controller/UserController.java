@@ -6,6 +6,7 @@ import com.bqt.flight_booking_server.dto.response.UserResponse;
 import com.bqt.flight_booking_server.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping
+    public String ping() {
+        log.info("pong");
+        return "pong";
+    }
 
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody RegisterRequest request){
