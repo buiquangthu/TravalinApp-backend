@@ -15,9 +15,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Airport {
     @Id
-    @Column(length = 10)
+    @Column(name = "airport_code", length = 10)
     private String airportCode; // ma san bay
 
+    @Column(name = "airport_name", nullable = false)
     private String airportName; // ten san bay
+
+    @Column(name = "location", nullable = false)
     private String location; // dia diem
+    
 }

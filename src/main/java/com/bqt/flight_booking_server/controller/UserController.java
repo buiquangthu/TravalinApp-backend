@@ -65,4 +65,8 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/my-info")
+    public ResponseEntity<UserResponse> getUserProfile(@RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(userService.getMyInfo(token));
+    }
 }

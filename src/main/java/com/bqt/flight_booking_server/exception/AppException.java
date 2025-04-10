@@ -7,15 +7,24 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 public class AppException extends RuntimeException {
 
-    private final HttpStatus status;
+    private final ErrorCode errorCode;
+    private final Object details;
 
     public AppException(ErrorCode errorCode) {
         super(errorCode.getMessage());
-        this.status = errorCode.getStatusCode();
+        this.errorCode = errorCode;
+        this.details = null;
     }
 
-    public AppException(ErrorCode errorCode, HttpStatus status, Object... args) {
-        super(errorCode.formatMessage(args));
-        this.status = errorCode.getStatusCode();
+    public AppException( ErrorCode errorCode, Object details) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
+        this.details = details;
+    }
+
+    public AppException(ErrorCode errorCode, String customMessage) {
+        super(customMessage);
+        this.errorCode = errorCode;
+        this.details = null;
     }
 }

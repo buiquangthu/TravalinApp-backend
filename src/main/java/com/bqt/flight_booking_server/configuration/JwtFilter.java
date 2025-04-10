@@ -17,18 +17,19 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 
+@Component
 public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-//
-//    private final UserDetailsService userDetailsService;
-//
-//
-//    public JwtFilter(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService){
-//        this.jwtTokenProvider = jwtTokenProvider;
-//        this.userDetailsService = userDetailsService;
-//    }
+
+    private final UserDetailsService userDetailsService;
+
+
+    public JwtFilter(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService){
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -40,19 +41,17 @@ public class JwtFilter extends OncePerRequestFilter {
             // lay email tu token
             String email = jwtTokenProvider.getEmailFromToken(token);
 
-//            // ktra xem email da xac thuc hay chua
-//            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-//                // lay thong tin user tu DB
-//                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-//
-//                // tao doi tuong xac thuc va set vao Security context
-//                UsernamePasswordAuthenticationToken authentication =
-//                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//
-//                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
-//            }
+            // load user thu database
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+
+            // tao doi tuong xac thuc
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+            // set thong tin xac thuc vao securityContext
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);
     }

@@ -2,19 +2,27 @@ package com.bqt.flight_booking_server.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "airlines")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Airline {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long airlineId;
+    @Column(name = "airline_code", length = 10)
+    private String airlineCode;
 
+    @Column(name = "airline_name", nullable = false, unique = true)
     private String airlineName;
-    private String contactNumber;
+
+    @Column(name = "contact_number", length = 15)
+    private String contactNumber;  // Bổ sung số liên hệ
+
+    @Column(name = "logo_url")
+    private String logoUrl;
 }

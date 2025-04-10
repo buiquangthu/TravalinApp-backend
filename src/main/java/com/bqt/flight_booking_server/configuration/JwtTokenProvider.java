@@ -1,6 +1,7 @@
 package com.bqt.flight_booking_server.configuration;
 
 
+import com.bqt.flight_booking_server.entity.User;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,23 +20,21 @@ public class JwtTokenProvider {
 
 
     //Tao JWT
-    public String generateToken(String email) {
+    public String generateToken(User user) {
         Date now = new Date();
 
         Date expiryDate = new Date(now.getTime() + expirationTime);
 
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
+                .setSubject(user.getEmail()) // email
+                .claim("roles", user.getRole().name()) // luu role
+                .claim("fullname", user.getFullname())
+                .setIssuedAt(now) // time tao token
+                .setExpiration(expiryDate) // time het han
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
-//    // Tao rf token
-//    public String generateAccessToken(String email){
-//        return(email, refreshTokenValidity);
-//    }
 
     // Lấy email từ JWT
     public String getEmailFromToken(String token) {
@@ -44,6 +43,15 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+    }
+
+    // lay fullname tu JWT
+    public String getFullnameFromToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .get("fullname", String.class);
     }
 
     // Kiểm tra JWT hợp lệ
@@ -55,4 +63,5 @@ public class JwtTokenProvider {
             return false;
         }
     }
+
 }
