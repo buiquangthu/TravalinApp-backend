@@ -1,6 +1,7 @@
 package com.bqt.flight_booking_server.service;
 
 import com.bqt.flight_booking_server.dto.request.FlightRequest;
+import com.bqt.flight_booking_server.dto.request.FlightSearchRequest;
 import com.bqt.flight_booking_server.dto.response.FlightResponse;
 import com.bqt.flight_booking_server.entity.Airline;
 import com.bqt.flight_booking_server.entity.Airport;
@@ -77,6 +78,28 @@ public class FlightService {
             throw new AppException(ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+
+    public List<FlightResponse> searchFlights(FlightSearchRequest request) {
+        try {
+            List<Flight> flights = flightRepository.searchFlightsFlexible(
+                    request.getOriginAirportCode(),
+                    request.getDestinationAirportCode(),
+                    request.getDepartureDate()
+            );
+
+            return flights.stream()
+                    .map(flight -> mapToResponse(
+                            flight,
+                            flight.getAirlineCode(),
+                            flight.getOriginAirport(),
+                            flight.getDestinationAirport()
+                    ))
+                    .collect(Collectors.toList());
+        }catch (Exception e){
+            throw new AppException(ErrorCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
 
 
 
