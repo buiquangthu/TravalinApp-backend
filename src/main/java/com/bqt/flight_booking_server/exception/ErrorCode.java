@@ -59,7 +59,10 @@ public enum ErrorCode {
 
     // Thanh toán
     PAYMENT_FAILED(HttpStatus.BAD_REQUEST, "Thanh toán thất bại"),
-    PAYMENT_CONFLICT(HttpStatus.CONFLICT, "Xung đột thanh toán");
+    PAYMENT_CONFLICT(HttpStatus.CONFLICT, "Xung đột thanh toán"),
+
+    // Khong tim thay chung
+    NOT_FOUND(HttpStatus.NOT_FOUND, "Không tìm thấy");
 
     private final HttpStatus statusCode;
     private final String message;

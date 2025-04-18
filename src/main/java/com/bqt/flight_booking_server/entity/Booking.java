@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "bookings")
@@ -18,7 +19,7 @@ public class Booking {
     private Long BookingId;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
@@ -26,7 +27,9 @@ public class Booking {
     private Flight flight;
 
     private Date bookingDate;
-    private String seatNumber;
     private String paymentStatus; // Pending, Paid, Cancelled
     private String bookingStatus; // Confirmed, Waiting, Cancelled
+
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    private List<BookingDetail> bookingDetails;
 }
